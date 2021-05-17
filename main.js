@@ -1,10 +1,16 @@
 import {TreeFrog} from './classes/tree-frog.js'
 
-const rosinka = new TreeFrog("Rosinka", 5, "green", "F")
-
-
-
-rosinka.makeSound()
+let rosinka;
+let contentScriptTabId;
+chrome.runtime.sendMessage(
+    {type: 'extension-loaded'},//sprava - objekt
+    
+    (response) =>{
+        contentScriptTabId = response.contentScriptTabId
+        rosinka = new TreeFrog("Rosinka", 5, "green", "F", contentScriptTabId)
+        rosinka.myTabId()
+    }
+)
 
 
 

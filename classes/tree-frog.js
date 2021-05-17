@@ -2,21 +2,21 @@ import { Animal } from './animal.js'
 
 export class TreeFrog extends Animal {
 
-    constructor(name, weight, color, pohlavie) {
+    constructor(name, weight, color, pohlavie, contentScriptTabId) {
         super(name, weight, color)
         this.pohlavie = pohlavie
         this.weather = this.#createWeatherForecast()
         this.weatherForm = document.getElementById("weatherForm")
         this.colorForm = document.getElementById("colorForm")
-        
-       
+        this.contentScriptTabId = contentScriptTabId
+
         this.weatherForm.addEventListener("submit", (e) => {
             e.preventDefault()
             this.getActualWeatherForCity()
         })
 
-        this.colorForm.addEventListener("submit", (e) => {            
-            //TU DAT METODU, CO SPUSTI ZAFARBENIE
+        this.colorForm.addEventListener("submit", (e) => {
+            this.sendMessageToHighlightElements()
         })
 
         chrome.storage.sync.get(['weatherAPIKey'], (url) => {
@@ -25,6 +25,10 @@ export class TreeFrog extends Animal {
         chrome.storage.sync.get(['geoAPIKey'], (url) => {
             this.geoKey = url.geoAPIKey;
         });
+    }
+
+    myTabId() {
+        this.informWorld("my tab id " + this.contentScriptTabId)
     }
 
     informWorld(message) {
@@ -134,11 +138,20 @@ export class TreeFrog extends Animal {
         temperatureElement.textContent = temperature
         conditionsElement.textContent = conditions
 
-        cardBody.append(locationElement,iconElement,temperatureElement,conditionsElement)
+        cardBody.append(locationElement, iconElement, temperatureElement, conditionsElement)
         card.appendChild(cardBody)
-        
+
         document.getElementById("cards-row").appendChild(card)
     }
 
+    sendMessageToHighlightElements() {
+        const elementName = document.getElementById('element-name').value
+        const color = '#03CAFC'
+
+        //konkretnej tabke posielame spravu
+        chrome.tabs.sendMessage(this.contentScriptTabId,
+            { type: 'color-elements', color: color, elementName: elementName }
+        )
+    }
 
 }
