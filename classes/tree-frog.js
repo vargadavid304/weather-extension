@@ -7,11 +7,16 @@ export class TreeFrog extends Animal {
         this.pohlavie = pohlavie
         this.weather = this.#createWeatherForecast()
         this.weatherForm = document.getElementById("weatherForm")
+        this.colorForm = document.getElementById("colorForm")
         
        
         this.weatherForm.addEventListener("submit", (e) => {
             e.preventDefault()
             this.getActualWeatherForCity()
+        })
+
+        this.colorForm.addEventListener("submit", (e) => {            
+            //TU DAT METODU, CO SPUSTI ZAFARBENIE
         })
 
         chrome.storage.sync.get(['weatherAPIKey'], (url) => {

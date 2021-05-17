@@ -1,0 +1,1 @@
+console.log("AHOJ, ja som content script")

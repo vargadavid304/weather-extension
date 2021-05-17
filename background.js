@@ -1,3 +1,4 @@
+let contentScriptTabId;
 chrome.browserAction.onClicked.addListener(function () {
     chrome.windows.create({
         'url': 'index.html',
@@ -7,3 +8,10 @@ chrome.browserAction.onClicked.addListener(function () {
         'left': 1
     });
 });
+
+chrome.tabs.query(
+    { active: true, currentWindow: true },
+    () => {
+        
+    }
+)
