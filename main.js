@@ -11,7 +11,3 @@ chrome.runtime.sendMessage(
         rosinka.myTabId()
     }
 )
-
-
-
-

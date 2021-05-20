@@ -5,6 +5,12 @@ chrome.runtime.onMessage.addListener(
         if (message.type === 'color-elements') {
             colorElements(message.color, message.elementName)
         }
+        if (message.type === 'function-name') {
+            if(message.functionName === 'getAllText'){
+                sendResponse(getAllText())
+            }        
+
+        }
     }
 )
 
@@ -14,3 +20,8 @@ function colorElements (color, elementName){
         e.style['background-color'] = color
     }
 }
+
+function getAllText (){
+    return document.body.innerText        
+}
+
